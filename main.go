@@ -49,6 +49,8 @@ func run(window *app.Window) error {
 			gtx := app.NewContext(&ops, e)
 			ui.layout(gtx)
 			e.Frame(gtx.Ops)
+		default:
+			applyWindowIcon(e)
 		}
 	}
 }

@@ -22,18 +22,18 @@ import (
 )
 
 var (
-	colBg       = color.NRGBA{R: 0xF4, G: 0xF5, B: 0xF7, A: 0xFF}
-	colSurface  = color.NRGBA{R: 0xFF, G: 0xFF, B: 0xFF, A: 0xFF}
-	colBorder   = color.NRGBA{R: 0xE1, G: 0xE4, B: 0xEA, A: 0xFF}
-	colText     = color.NRGBA{R: 0x1A, G: 0x1D, B: 0x21, A: 0xFF}
-	colMuted    = color.NRGBA{R: 0x66, G: 0x70, B: 0x85, A: 0xFF}
-	colHint     = color.NRGBA{R: 0x98, G: 0xA2, B: 0xB3, A: 0xFF}
-	colAccent   = color.NRGBA{R: 0x1C, G: 0x1F, B: 0x23, A: 0xFF}
+	colBg       = color.NRGBA{R: 0x0D, G: 0x0D, B: 0x12, A: 0xFF}
+	colSurface  = color.NRGBA{R: 0x17, G: 0x17, B: 0x20, A: 0xFF}
+	colBorder   = color.NRGBA{R: 0x2E, G: 0x2E, B: 0x3C, A: 0xFF}
+	colText     = color.NRGBA{R: 0xF2, G: 0xF2, B: 0xF7, A: 0xFF}
+	colMuted    = color.NRGBA{R: 0xA4, G: 0xA4, B: 0xB8, A: 0xFF}
+	colHint     = color.NRGBA{R: 0x7E, G: 0x7E, B: 0x96, A: 0xFF}
+	colAccent   = color.NRGBA{R: 0x6B, G: 0x63, B: 0xF6, A: 0xFF}
 	colOnAccent = color.NRGBA{R: 0xFF, G: 0xFF, B: 0xFF, A: 0xFF}
-	colSelect   = color.NRGBA{R: 0xEE, G: 0xF1, B: 0xF6, A: 0xFF}
-	colHover    = color.NRGBA{R: 0xF7, G: 0xF8, B: 0xFA, A: 0xFF}
-	colError    = color.NRGBA{R: 0xB4, G: 0x23, B: 0x18, A: 0xFF}
-	colDisabled = color.NRGBA{R: 0xC5, G: 0xCB, B: 0xD3, A: 0xFF}
+	colSelect   = color.NRGBA{R: 0x2A, G: 0x27, B: 0x4E, A: 0xFF}
+	colHover    = color.NRGBA{R: 0x22, G: 0x22, B: 0x30, A: 0xFF}
+	colError    = color.NRGBA{R: 0xFF, G: 0x8A, B: 0x80, A: 0xFF}
+	colDisabled = color.NRGBA{R: 0x3A, G: 0x3A, B: 0x4A, A: 0xFF}
 )
 
 type ui struct {
@@ -64,6 +64,7 @@ type ui struct {
 	client       *plex.Client
 	cancel       context.CancelFunc
 	req          int64
+	saved        connectionConfig
 }
 
 type snapshot struct {
@@ -87,10 +88,12 @@ func newUI(win *app.Window, th *material.Theme) *ui {
 	u.token.Mask = '•'
 	u.libList.Axis = layout.Vertical
 	u.lineList.Axis = layout.Vertical
+	u.loadConfig()
 	return u
 }
 
 func (u *ui) stop() {
+	u.persistConfig()
 	u.mu.Lock()
 	defer u.mu.Unlock()
 	if u.cancel != nil {
@@ -147,6 +150,7 @@ func (u *ui) layout(gtx layout.Context) layout.Dimensions {
 	if exportClick {
 		u.exportLines()
 	}
+	u.persistConfig()
 	return dims
 }
 
@@ -363,7 +367,7 @@ func (u *ui) field(gtx layout.Context, caption, hint string, ed *widget.Editor) 
 					e.TextSize = unit.Sp(15)
 					e.Color = colText
 					e.HintColor = colHint
-					e.SelectionColor = color.NRGBA{R: 0xD0, G: 0xD7, B: 0xE2, A: 0xFF}
+					e.SelectionColor = color.NRGBA{R: 0x6B, G: 0x63, B: 0xF6, A: 0x66}
 					return e.Layout(gtx)
 				})
 			})

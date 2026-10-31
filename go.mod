@@ -5,6 +5,8 @@ go 1.26.0
 require (
 	gioui.org v0.10.3
 	github.com/ncruces/zenity v0.10.15
+	golang.org/x/image v0.44.0
+	golang.org/x/sys v0.47.0
 	golang.org/x/text v0.43.0
 )
 
@@ -17,7 +19,5 @@ require (
 	github.com/josephspurrier/goversioninfo v1.7.0 // indirect
 	github.com/randall77/makefat v0.0.0-20260406194835-1b91746796b7 // indirect
 	golang.org/x/exp/shiny v0.0.0-20250408133849-7e4ce0ab07d0 // indirect
-	golang.org/x/image v0.44.0 // indirect
 	golang.org/x/net v0.48.0 // indirect
-	golang.org/x/sys v0.47.0 // indirect
 )

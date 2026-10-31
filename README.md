@@ -1,12 +1,14 @@
 # pExtractor
 
+![pExtractor](assets/icon.png)
+
 Portable program that reads titles from a Plex Media Server.
 
 - Movies: every movie title
 - TV shows: every series title
 - Music: every artist
 
-The list can be saved as a UTF-8 text file.
+The list can be saved as a text file with one title or artist per line.
 
 ## Windows
 
@@ -26,7 +28,7 @@ Flatpak installs the GNOME runtime from Flathub when it is not already present.
 
 ## Run
 
-Enter the server address and Plex token, connect, choose a library, then export.
+Enter the server address and Plex token, connect, choose a library, then export. The address, token, and certificate option are saved and filled in the next time the program starts.
 
 In Plex Web, open a title and choose **Get Info → View XML**. The token is the `X-Plex-Token` parameter in that URL.
 

@@ -23,10 +23,12 @@ modules:
       build-args:
         - --share=network
     build-commands:
-      - go build -trimpath -ldflags "-s -w" -o /app/bin/pextractor .
+      - go build -trimpath -ldflags "-s -w -X gioui.org/app.ID=io.github.abb0r.pextractor" -o /app/bin/pextractor .
       - install -Dm644 dist/io.github.abb0r.pextractor.desktop /app/share/applications/io.github.abb0r.pextractor.desktop
       - install -Dm644 dist/io.github.abb0r.pextractor.metainfo.xml /app/share/metainfo/io.github.abb0r.pextractor.metainfo.xml
-      - install -Dm644 dist/io.github.abb0r.pextractor.svg /app/share/icons/hicolor/scalable/apps/io.github.abb0r.pextractor.svg
+      - install -Dm644 assets/icon-128.png /app/share/icons/hicolor/128x128/apps/io.github.abb0r.pextractor.png
+      - install -Dm644 assets/icon-256.png /app/share/icons/hicolor/256x256/apps/io.github.abb0r.pextractor.png
+      - install -Dm644 assets/icon-512.png /app/share/icons/hicolor/512x512/apps/io.github.abb0r.pextractor.png
     sources:
       - type: dir
         path: .

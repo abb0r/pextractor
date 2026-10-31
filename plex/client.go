@@ -228,7 +228,7 @@ func (c *Client) get(ctx context.Context, path string, query url.Values, dest an
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("X-Plex-Token", c.token)
 	req.Header.Set("X-Plex-Product", "pExtractor")
-	req.Header.Set("X-Plex-Version", "0.1.0")
+	req.Header.Set("X-Plex-Version", "0.2.0")
 	req.Header.Set("X-Plex-Client-Identifier", "pextractor")
 	resp, err := c.http.Do(req)
 	if err != nil {

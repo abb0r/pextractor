@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"os"
 	"strings"
 
@@ -34,26 +33,20 @@ func saveExport(doc exportDoc) (string, error) {
 	if !strings.HasSuffix(strings.ToLower(path), ".txt") {
 		path += ".txt"
 	}
-	if err := writeExport(path, doc); err != nil {
+	if err := writeExport(path, doc.Lines); err != nil {
 		return "", err
 	}
 	return path, nil
 }
 
-func writeExport(path string, doc exportDoc) error {
+func writeExport(path string, lines []string) error {
 	var b strings.Builder
-	b.WriteString("pExtractor\r\n")
-	fmt.Fprintf(&b, "Server: %s\r\n", doc.Server)
-	fmt.Fprintf(&b, "Library: %s\r\n", doc.Library)
-	fmt.Fprintf(&b, "Type: %s\r\n", doc.Kind)
-	fmt.Fprintf(&b, "Count: %d\r\n\r\n", len(doc.Lines))
-	for _, line := range doc.Lines {
+	for _, line := range lines {
 		line = strings.ReplaceAll(line, "\r\n", " ")
 		line = strings.ReplaceAll(line, "\n", " ")
 		line = strings.ReplaceAll(line, "\r", " ")
 		b.WriteString(line)
-		b.WriteString("\r\n")
+		b.WriteByte('\n')
 	}
-	data := append([]byte{0xEF, 0xBB, 0xBF}, []byte(b.String())...)
-	return os.WriteFile(path, data, 0o644)
+	return os.WriteFile(path, []byte(b.String()), 0o644)
 }
