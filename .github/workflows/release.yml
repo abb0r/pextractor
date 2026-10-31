@@ -52,8 +52,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${GITHUB_REF_NAME}" windows/pExtractor.exe flatpak/pExtractor.flatpak --title "pExtractor ${GITHUB_REF_NAME}" --notes-file - <<EOF
-          ## pExtractor ${GITHUB_REF_NAME}
+          notes=$(cat <<'EOF'
+          ## pExtractor VERSION
 
           - Dark interface and program icon.
           - The server address, token, and certificate option are remembered.
@@ -68,3 +68,6 @@ jobs:
           flatpak run io.github.abb0r.pextractor
           ```
           EOF
+          )
+          notes="${notes//VERSION/${GITHUB_REF_NAME}}"
+          gh release create "${GITHUB_REF_NAME}" windows/pExtractor.exe flatpak/pExtractor.flatpak --title "pExtractor ${GITHUB_REF_NAME}" --notes "$notes"
