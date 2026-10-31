@@ -1,20 +1,20 @@
 # Pextractor
 
-Portables Windows-Programm, das Titel aus einem Plex-Server ausliest.
+Portable Windows program that reads titles from a Plex Media Server.
 
-- Filme: alle Filmtitel
-- Serien: alle Serientitel
-- Musik: alle Künstler
+- Movies: every movie title
+- TV shows: every series title
+- Music: every artist
 
-Die Liste lässt sich als UTF-8-Textdatei speichern.
+The list can be saved as a UTF-8 text file.
 
-## Start
+## Run
 
-`pextractor.exe` starten. Server-Adresse und Plex-Token eintragen, verbinden, Bibliothek wählen, exportieren.
+Start `pextractor.exe`. Enter the server address and Plex token, connect, choose a library, then export.
 
-Den Token findest du in Plex Web über **Infos → XML anzeigen** als Parameter `X-Plex-Token`.
+In Plex Web, open a title and choose **Get Info → View XML**. The token is the `X-Plex-Token` parameter in that URL.
 
-## Bauen
+## Build
 
 ```
 go build -trimpath -ldflags "-s -w -H windowsgui" -o pextractor.exe .
