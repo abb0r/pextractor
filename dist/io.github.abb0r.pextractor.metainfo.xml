@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.abb0r.pextractor</id>
+  <name>pExtractor</name>
+  <summary>List titles from a Plex library</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>LicenseRef-AllRightsReserved</project_license>
+  <developer id="io.github.abb0r">
+    <name>abb0r</name>
+  </developer>
+  <description>
+    <p>pExtractor connects to a Plex Media Server and lists movie titles, series titles, or music artists. The list can be saved as a text file.</p>
+  </description>
+  <launchable type="desktop-id">io.github.abb0r.pextractor.desktop</launchable>
+  <url type="homepage">https://github.com/abb0r/pextractor</url>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="0.1" date="2026-10-31"/>
+  </releases>
+</component>

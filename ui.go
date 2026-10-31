@@ -155,13 +155,13 @@ func (u *ui) column(gtx layout.Context, view snapshot) layout.Dimensions {
 	gap := gtx.Dp(unit.Dp(20))
 	return layout.Flex{Axis: layout.Vertical}.Layout(gtx,
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-			l := material.H5(u.th, "Pextractor")
+			l := material.H5(u.th, "pExtractor")
 			l.Color = colText
 			return l.Layout(gtx)
 		}),
 		layout.Rigid(u.gap(2)),
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-			return u.muted(gtx, unit.Sp(13), "Titel aus Film- und Serienbibliotheken, Künstler aus Musikbibliotheken.")
+			return u.muted(gtx, unit.Sp(13), "Movie and series titles, and artists from music libraries.")
 		}),
 		layout.Rigid(u.gap(16)),
 		layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
@@ -211,30 +211,30 @@ func (u *ui) connection(gtx layout.Context, view snapshot) layout.Dimensions {
 		}),
 		layout.Rigid(u.gap(12)),
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-			return u.field(gtx, "Token", "Plex-Token", &u.token)
+			return u.field(gtx, "Token", "Plex token", &u.token)
 		}),
 		layout.Rigid(u.gap(6)),
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-			return u.muted(gtx, unit.Sp(12), "In Plex Web: Titel → Infos → XML anzeigen. Der Token steht als X-Plex-Token in der Adresse.")
+			return u.muted(gtx, unit.Sp(12), "In Plex Web, open a title, then Get Info and View XML. The token is the X-Plex-Token value in the address.")
 		}),
 		layout.Rigid(u.gap(2)),
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-			return material.CheckBox(u.th, &u.showToken, "Token anzeigen").Layout(gtx)
+			return material.CheckBox(u.th, &u.showToken, "Show token").Layout(gtx)
 		}),
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-			return material.CheckBox(u.th, &u.insecure, "Selbstsignierte Zertifikate erlauben").Layout(gtx)
+			return material.CheckBox(u.th, &u.insecure, "Allow self-signed certificates").Layout(gtx)
 		}),
 		layout.Rigid(u.gap(12)),
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-			label := "Verbinden"
+			label := "Connect"
 			if view.busy && len(view.libraries) == 0 {
-				label = "Verbinde…"
+				label = "Connecting…"
 			}
 			return u.button(gtx, &u.connect, label, !view.busy)
 		}),
 		layout.Rigid(u.gap(16)),
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-			return u.caption(gtx, "Bibliothek")
+			return u.caption(gtx, "Library")
 		}),
 		layout.Rigid(u.gap(6)),
 		layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
@@ -242,7 +242,7 @@ func (u *ui) connection(gtx layout.Context, view snapshot) layout.Dimensions {
 			return u.panel(gtx, unit.Dp(10), func(gtx layout.Context) layout.Dimensions {
 				if len(view.libraries) == 0 {
 					return layout.UniformInset(unit.Dp(12)).Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-						return u.muted(gtx, unit.Sp(14), "Noch keine Bibliotheken geladen.")
+						return u.muted(gtx, unit.Sp(14), "No libraries loaded yet.")
 					})
 				}
 				return material.List(u.th, &u.libList).Layout(gtx, len(view.libraries), func(gtx layout.Context, i int) layout.Dimensions {
@@ -258,7 +258,7 @@ func (u *ui) results(gtx layout.Context, view snapshot) layout.Dimensions {
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
 			text := view.summary
 			if text == "" {
-				text = "Einträge"
+				text = "Entries"
 			}
 			return u.caption(gtx, text)
 		}),
@@ -277,9 +277,9 @@ func (u *ui) results(gtx layout.Context, view snapshot) layout.Dimensions {
 			gtx.Constraints.Min.Y = gtx.Constraints.Max.Y
 			return u.panel(gtx, unit.Dp(10), func(gtx layout.Context) layout.Dimensions {
 				if len(view.lines) == 0 {
-					msg := "Wähle eine Bibliothek."
+					msg := "Choose a library."
 					if len(view.libraries) == 0 {
-						msg = "Verbinde dich mit dem Plex-Server."
+						msg = "Connect to the Plex server."
 					}
 					return layout.UniformInset(unit.Dp(12)).Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 						return u.muted(gtx, unit.Sp(14), msg)
@@ -301,7 +301,7 @@ func (u *ui) results(gtx layout.Context, view snapshot) layout.Dimensions {
 func (u *ui) footer(gtx layout.Context, view snapshot) layout.Dimensions {
 	return layout.Flex{Axis: layout.Vertical}.Layout(gtx,
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-			return u.button(gtx, &u.export, "Als TXT exportieren", len(view.lines) > 0 && !view.busy)
+			return u.button(gtx, &u.export, "Export as TXT", len(view.lines) > 0 && !view.busy)
 		}),
 		layout.Rigid(u.gap(8)),
 		layout.Rigid(func(gtx layout.Context) layout.Dimensions {
@@ -472,7 +472,7 @@ func (u *ui) connectServer() {
 		u.summary = ""
 		u.client = nil
 		u.serverURL = ""
-		u.status = "Verbinde…"
+		u.status = "Connecting…"
 		u.statusErr = false
 		u.showProgress = false
 	})
@@ -488,7 +488,7 @@ func (u *ui) connectServer() {
 			u.serverURL = base
 			u.libraries = libs
 			u.summary = libraryCount(len(libs))
-			u.status = "Bibliothek auswählen."
+			u.status = "Select a library."
 			u.statusErr = false
 		})
 	}()
@@ -527,7 +527,7 @@ func (u *ui) openLibrary(index int) {
 		u.selected = index
 		u.lines = nil
 		u.summary = lib.Title
-		u.status = "Lade Einträge…"
+		u.status = "Loading entries…"
 		u.statusErr = false
 		u.showProgress = false
 		u.progress = 0
@@ -542,9 +542,9 @@ func (u *ui) openLibrary(index int) {
 			if total > 0 {
 				u.showProgress = true
 				u.progress = float32(loaded) / float32(total)
-				u.status = fmt.Sprintf("Lade Einträge… %d/%d", loaded, total)
+				u.status = fmt.Sprintf("Loading entries… %d/%d", loaded, total)
 			} else {
-				u.status = fmt.Sprintf("Lade Einträge… %d", loaded)
+				u.status = fmt.Sprintf("Loading entries… %d", loaded)
 			}
 			u.win.Invalidate()
 		})
@@ -553,7 +553,7 @@ func (u *ui) openLibrary(index int) {
 			u.summary = lib.Title + " · " + countLabel(len(lines), lib.Type)
 			u.status = ""
 			if len(lines) == 0 {
-				u.status = "Keine Einträge in dieser Bibliothek."
+				u.status = "No entries in this library."
 			}
 			u.statusErr = false
 		})
@@ -566,7 +566,7 @@ func (u *ui) exportLines() {
 		busy := u.busy
 		u.mu.Unlock()
 		if !busy {
-			u.setStatus("Nichts zum Exportieren.", true)
+			u.setStatus("Nothing to export.", true)
 		}
 		return
 	}
@@ -589,7 +589,7 @@ func (u *ui) exportLines() {
 	if path == "" {
 		return
 	}
-	u.setStatus("Gespeichert: "+path, false)
+	u.setStatus("Saved: "+path, false)
 }
 
 func (u *ui) begin(setup func()) (context.Context, int64) {
@@ -642,16 +642,16 @@ func (u *ui) setStatus(msg string, isErr bool) {
 
 func libraryCount(n int) string {
 	if n == 1 {
-		return "1 Bibliothek"
+		return "1 library"
 	}
-	return itoa(n) + " Bibliotheken"
+	return itoa(n) + " libraries"
 }
 
 func unsupportedMessage(kind string) string {
 	switch kind {
 	case "photo":
-		return "Fotobibliotheken werden nicht ausgelesen."
+		return "Photo libraries are not read."
 	default:
-		return "Dieser Bibliothekstyp wird nicht unterstützt. Möglich sind Filme, Serien und Musik."
+		return "This library type is not supported. Movies, TV shows, and music are supported."
 	}
 }

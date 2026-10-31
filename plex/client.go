@@ -51,15 +51,15 @@ type Client struct {
 func NewClient(baseURL, token string, insecureTLS bool) (*Client, error) {
 	baseURL = strings.TrimRight(strings.TrimSpace(baseURL), "/")
 	if baseURL == "" {
-		return nil, errors.New("Bitte die Server-Adresse angeben.")
+		return nil, errors.New("Please enter the server address.")
 	}
 	token = strings.TrimSpace(token)
 	if token == "" {
-		return nil, errors.New("Bitte den Plex-Token angeben.")
+		return nil, errors.New("Please enter the Plex token.")
 	}
 	u, err := url.Parse(baseURL)
 	if err != nil || u.Host == "" || (u.Scheme != "http" && u.Scheme != "https") {
-		return nil, errors.New("Die Server-Adresse ist ungültig.")
+		return nil, errors.New("The server address is invalid.")
 	}
 	transport := http.DefaultTransport.(*http.Transport).Clone()
 	if insecureTLS {
@@ -152,7 +152,7 @@ func (c *Client) Entries(ctx context.Context, lib Library, progress func(loaded,
 			break
 		}
 		if len(titles) > 500000 {
-			return nil, errors.New("Die Bibliothek enthält zu viele Einträge.")
+			return nil, errors.New("The library has too many entries.")
 		}
 	}
 	sortStrings(titles)
@@ -168,7 +168,7 @@ func typeCode(kind string) (string, error) {
 	case "artist":
 		return "8", nil
 	default:
-		return "", fmt.Errorf("Bibliothekstyp %q wird nicht unterstützt", kind)
+		return "", fmt.Errorf("library type %q is not supported", kind)
 	}
 }
 
@@ -211,7 +211,7 @@ type container struct {
 func (c *Client) get(ctx context.Context, path string, query url.Values, dest any) error {
 	base, err := url.Parse(c.baseURL)
 	if err != nil {
-		return errors.New("Die Server-Adresse ist ungültig.")
+		return errors.New("The server address is invalid.")
 	}
 	full := *base
 	full.Path = strings.TrimRight(base.Path, "/") + path
@@ -227,8 +227,8 @@ func (c *Client) get(ctx context.Context, path string, query url.Values, dest an
 	}
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("X-Plex-Token", c.token)
-	req.Header.Set("X-Plex-Product", "Pextractor")
-	req.Header.Set("X-Plex-Version", "1.0.0")
+	req.Header.Set("X-Plex-Product", "pExtractor")
+	req.Header.Set("X-Plex-Version", "0.1.0")
 	req.Header.Set("X-Plex-Client-Identifier", "pextractor")
 	resp, err := c.http.Do(req)
 	if err != nil {
@@ -240,17 +240,17 @@ func (c *Client) get(ctx context.Context, path string, query url.Values, dest an
 		return friendly(err)
 	}
 	if resp.StatusCode == http.StatusUnauthorized || resp.StatusCode == http.StatusForbidden {
-		return errors.New("Zugriff verweigert. Token und Berechtigung prüfen.")
+		return errors.New("Access denied. Check the token and permissions.")
 	}
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return fmt.Errorf("Unerwartete Antwort vom Server (HTTP %d).", resp.StatusCode)
+		return fmt.Errorf("Unexpected server response (HTTP %d).", resp.StatusCode)
 	}
 	body = bytes.TrimSpace(body)
 	if len(body) == 0 || body[0] != '{' {
-		return errors.New("Der Server hat kein JSON geliefert. Adresse und Port 32400 prüfen.")
+		return errors.New("The server did not return JSON. Check the address and port 32400.")
 	}
 	if err := json.Unmarshal(body, dest); err != nil {
-		return errors.New("Die Antwort des Servers konnte nicht gelesen werden.")
+		return errors.New("The server response could not be read.")
 	}
 	return nil
 }
@@ -263,22 +263,22 @@ func friendly(err error) error {
 		return err
 	}
 	if errors.Is(err, context.DeadlineExceeded) {
-		return errors.New("Zeitüberschreitung beim Abruf vom Plex-Server.")
+		return errors.New("Timed out while contacting the Plex server.")
 	}
 	var netErr net.Error
 	if errors.As(err, &netErr) && netErr.Timeout() {
-		return errors.New("Zeitüberschreitung beim Abruf vom Plex-Server.")
+		return errors.New("Timed out while contacting the Plex server.")
 	}
 	msg := strings.ToLower(err.Error())
 	switch {
 	case strings.Contains(msg, "connection refused"):
-		return errors.New("Verbindung abgelehnt. Läuft der Plex-Server und stimmt die Adresse?")
+		return errors.New("Connection refused. Is the Plex server running, and is the address correct?")
 	case strings.Contains(msg, "no such host"):
-		return errors.New("Server nicht gefunden. Adresse prüfen.")
+		return errors.New("Server not found. Check the address.")
 	case strings.Contains(msg, "certificate") || strings.Contains(msg, "x509"):
-		return errors.New("Zertifikatsfehler. Für selbstsignierte Zertifikate die Option unten aktivieren.")
+		return errors.New("Certificate error. For a self-signed certificate, enable the option below.")
 	default:
-		return fmt.Errorf("Verbindung fehlgeschlagen: %v", err)
+		return fmt.Errorf("Connection failed: %v", err)
 	}
 }
 

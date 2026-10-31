@@ -27,13 +27,13 @@ func TestExportFileName(t *testing.T) {
 	if got := exportFileName(`Filme: "A/B"`); got != "Filme- -A-B-.txt" {
 		t.Fatalf("got %q", got)
 	}
-	if got := exportFileName("  "); got != "pextractor.txt" {
+	if got := exportFileName("  "); got != "pExtractor.txt" {
 		t.Fatalf("blank = %q", got)
 	}
 }
 
 func TestCountLabel(t *testing.T) {
-	if countLabel(1, "show") != "1 Serie" || countLabel(2, "artist") != "2 Künstler" {
+	if countLabel(1, "show") != "1 series" || countLabel(2, "artist") != "2 artists" {
 		t.Fatalf("%q %q", countLabel(1, "show"), countLabel(2, "artist"))
 	}
 }

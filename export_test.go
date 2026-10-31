@@ -11,9 +11,9 @@ func TestWriteExport(t *testing.T) {
 	path := filepath.Join(t.TempDir(), "out.txt")
 	err := writeExport(path, exportDoc{
 		Server:  "http://127.0.0.1:32400",
-		Library: "Serien",
-		Kind:    "Serien",
-		Lines:   []string{"Die Brücke", "Am Ende\nnoch eine Zeile"},
+		Library: "Shows",
+		Kind:    "TV shows",
+		Lines:   []string{"The Bridge", "Still one\nmore line"},
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -27,11 +27,11 @@ func TestWriteExport(t *testing.T) {
 	}
 	text := string(got[3:])
 	for _, part := range []string{
-		"Bibliothek: Serien\r\n",
-		"Art: Serien\r\n",
-		"Anzahl: 2\r\n",
-		"Die Brücke\r\n",
-		"Am Ende noch eine Zeile\r\n",
+		"Library: Shows\r\n",
+		"Type: TV shows\r\n",
+		"Count: 2\r\n",
+		"The Bridge\r\n",
+		"Still one more line\r\n",
 	} {
 		if !bytes.Contains(got, []byte(part)) {
 			t.Fatalf("missing %q in %q", part, text)

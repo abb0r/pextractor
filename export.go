@@ -18,11 +18,11 @@ type exportDoc struct {
 
 func saveExport(doc exportDoc) (string, error) {
 	path, err := zenity.SelectFileSave(
-		zenity.Title("Als TXT exportieren"),
+		zenity.Title("Export as TXT"),
 		zenity.Filename(exportFileName(doc.Library)),
 		zenity.ConfirmOverwrite(),
 		zenity.FileFilters{
-			{Name: "Textdatei", Patterns: []string{"*.txt"}},
+			{Name: "Text file", Patterns: []string{"*.txt"}},
 		},
 	)
 	if err != nil {
@@ -42,11 +42,11 @@ func saveExport(doc exportDoc) (string, error) {
 
 func writeExport(path string, doc exportDoc) error {
 	var b strings.Builder
-	b.WriteString("Pextractor\r\n")
+	b.WriteString("pExtractor\r\n")
 	fmt.Fprintf(&b, "Server: %s\r\n", doc.Server)
-	fmt.Fprintf(&b, "Bibliothek: %s\r\n", doc.Library)
-	fmt.Fprintf(&b, "Art: %s\r\n", doc.Kind)
-	fmt.Fprintf(&b, "Anzahl: %d\r\n\r\n", len(doc.Lines))
+	fmt.Fprintf(&b, "Library: %s\r\n", doc.Library)
+	fmt.Fprintf(&b, "Type: %s\r\n", doc.Kind)
+	fmt.Fprintf(&b, "Count: %d\r\n\r\n", len(doc.Lines))
 	for _, line := range doc.Lines {
 		line = strings.ReplaceAll(line, "\r\n", " ")
 		line = strings.ReplaceAll(line, "\n", " ")

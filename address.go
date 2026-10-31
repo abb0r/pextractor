@@ -11,17 +11,17 @@ func normalize(server, token string) (string, string, error) {
 	server = strings.TrimSpace(server)
 	token = strings.TrimSpace(token)
 	if server == "" {
-		return "", "", errors.New("Bitte die Server-Adresse angeben.")
+		return "", "", errors.New("Please enter the server address.")
 	}
 	if !strings.Contains(server, "://") {
 		server = "http://" + server
 	}
 	u, err := url.Parse(server)
 	if err != nil || u.Host == "" {
-		return "", "", errors.New("Die Server-Adresse ist ungültig.")
+		return "", "", errors.New("The server address is invalid.")
 	}
 	if u.Scheme != "http" && u.Scheme != "https" {
-		return "", "", errors.New("Nur http und https werden unterstützt.")
+		return "", "", errors.New("Only http and https are supported.")
 	}
 	if embedded := strings.TrimSpace(u.Query().Get("X-Plex-Token")); embedded != "" && token == "" {
 		token = embedded
@@ -34,7 +34,7 @@ func normalize(server, token string) (string, string, error) {
 	}
 	u.Path = path
 	if token == "" {
-		return "", "", errors.New("Bitte den Plex-Token angeben.")
+		return "", "", errors.New("Please enter the Plex token.")
 	}
 	return u.String(), token, nil
 }
@@ -42,7 +42,7 @@ func normalize(server, token string) (string, string, error) {
 func exportFileName(library string) string {
 	library = strings.TrimSpace(library)
 	if library == "" {
-		library = "pextractor"
+		library = "pExtractor"
 	}
 	var b strings.Builder
 	for _, r := range library {
@@ -58,7 +58,7 @@ func exportFileName(library string) string {
 	}
 	name := strings.Trim(b.String(), " .")
 	if name == "" {
-		name = "pextractor"
+		name = "pExtractor"
 	}
 	return name + ".txt"
 }
@@ -66,16 +66,16 @@ func exportFileName(library string) string {
 func typeLabel(kind string) string {
 	switch kind {
 	case "movie":
-		return "Filme"
+		return "Movies"
 	case "show":
-		return "Serien"
+		return "TV shows"
 	case "artist":
-		return "Musik"
+		return "Music"
 	case "photo":
-		return "Fotos"
+		return "Photos"
 	default:
 		if kind == "" {
-			return "Unbekannt"
+			return "Unknown"
 		}
 		return kind
 	}
@@ -85,24 +85,24 @@ func countLabel(n int, kind string) string {
 	switch kind {
 	case "movie":
 		if n == 1 {
-			return "1 Film"
+			return "1 movie"
 		}
-		return plural(n, "Filme")
+		return plural(n, "movies")
 	case "show":
 		if n == 1 {
-			return "1 Serie"
+			return "1 series"
 		}
-		return plural(n, "Serien")
+		return plural(n, "series")
 	case "artist":
 		if n == 1 {
-			return "1 Künstler"
+			return "1 artist"
 		}
-		return plural(n, "Künstler")
+		return plural(n, "artists")
 	default:
 		if n == 1 {
-			return "1 Eintrag"
+			return "1 entry"
 		}
-		return plural(n, "Einträge")
+		return plural(n, "entries")
 	}
 }
 

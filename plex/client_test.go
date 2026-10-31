@@ -144,7 +144,7 @@ func TestUnauthorized(t *testing.T) {
 		t.Fatal(err)
 	}
 	_, err = c.Libraries(context.Background())
-	if err == nil || !strings.Contains(err.Error(), "Zugriff verweigert") {
+	if err == nil || !strings.Contains(err.Error(), "Access denied") {
 		t.Fatalf("err = %v", err)
 	}
 }

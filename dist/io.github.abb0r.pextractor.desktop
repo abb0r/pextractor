@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=pExtractor
+Comment=List titles from a Plex library
+Exec=pextractor
+Icon=io.github.abb0r.pextractor
+Terminal=false
+Type=Application
+Categories=AudioVideo;Utility;
+StartupWMClass=pextractor

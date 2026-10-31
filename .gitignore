@@ -1,2 +1,6 @@
-pextractor.exe
 *.exe
+/pextractor
+/dist/pextractor
+/repo
+/build-dir
+/.flatpak-builder

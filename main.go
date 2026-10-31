@@ -17,12 +17,12 @@ func main() {
 	go func() {
 		window := new(app.Window)
 		window.Option(
-			app.Title("Pextractor"),
+			app.Title("pExtractor"),
 			app.Size(unit.Dp(980), unit.Dp(680)),
 			app.MinSize(unit.Dp(760), unit.Dp(560)),
 		)
 		if err := run(window); err != nil {
-			_ = zenity.Error(err.Error(), zenity.Title("Pextractor"))
+			_ = zenity.Error(err.Error(), zenity.Title("pExtractor"))
 			os.Exit(1)
 		}
 		os.Exit(0)
