@@ -38,8 +38,4 @@ Windows:
 go build -trimpath -ldflags "-s -w -H windowsgui" -o pExtractor.exe .
 ```
 
-Linux:
-
-```
-CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o pextractor .
-```
+Linux needs the GNOME Flatpak SDK, Wayland, and EGL development packages because the interface links against them. The release workflow builds `pExtractor.flatpak` with those libraries.

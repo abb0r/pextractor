@@ -1,0 +1,32 @@
+id: io.github.abb0r.pextractor
+runtime: org.gnome.Platform
+runtime-version: "49"
+sdk: org.gnome.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.golang
+command: pextractor
+finish-args:
+  - --share=network
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --device=dri
+  - --filesystem=home
+  - --filesystem=xdg-download
+modules:
+  - name: pextractor
+    buildsystem: simple
+    build-options:
+      append-path: /usr/lib/sdk/golang/bin
+      env:
+        GOROOT: /usr/lib/sdk/golang
+      build-args:
+        - --share=network
+    build-commands:
+      - go build -trimpath -ldflags "-s -w" -o /app/bin/pextractor .
+      - install -Dm644 dist/io.github.abb0r.pextractor.desktop /app/share/applications/io.github.abb0r.pextractor.desktop
+      - install -Dm644 dist/io.github.abb0r.pextractor.metainfo.xml /app/share/metainfo/io.github.abb0r.pextractor.metainfo.xml
+      - install -Dm644 dist/io.github.abb0r.pextractor.svg /app/share/icons/hicolor/scalable/apps/io.github.abb0r.pextractor.svg
+    sources:
+      - type: dir
+        path: .
